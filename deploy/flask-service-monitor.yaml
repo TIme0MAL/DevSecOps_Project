@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: flask-app-monitor
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: second   # doit correspondre au label de ton Service (svc.yaml)
+  namespaceSelector:
+    matchNames:
+      - default    # change si ton app Flask tourne dans un autre namespace
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
